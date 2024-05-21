@@ -77,6 +77,8 @@ const adjacentImages = images
             src="${preview}"
             data-source="${original}"
             alt="${description}"
+            width="360"
+            height="200"
           />
         </a>
       </li>
@@ -85,3 +87,23 @@ const adjacentImages = images
   .join('');
 
 gallery.insertAdjacentHTML('beforeend', adjacentImages);
+
+function onGalleryClick(event) {
+  event.preventDefault();
+
+  if (event.target.nodeName !== 'IMG') {
+    return;
+  }
+
+  const imageSrc = event.target.dataset.source;
+  const description = event.target.getAttribute('alt');
+
+  const lightboxInstance = basicLightbox.create(
+    `<img src="${imageSrc}" alt="${description}" />`,
+    { className: 'lightbox' }
+  );
+
+  lightboxInstance.show();
+}
+
+gallery.addEventListener('click', onGalleryClick);
